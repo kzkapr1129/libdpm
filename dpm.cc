@@ -210,11 +210,14 @@ int dpm::match(const uint8_t* values1, int len1,
         
         // コストが最小になる開始点・終了点を保存する
         if (cost < minCost) {
-            minCost = cost;
-            
-            result->start = start;
-            result->end = end;
-            result->score = cost;
+            // 発見したデータ列長が実際の長さより短い場合は無視する
+            if (end.values2_i - start.values2_i >= len1) {
+                // 発見したデータ列を保存する
+                minCost = cost;
+                result->start = start;
+                result->end = end;
+                result->score = cost;
+            }
         }
     }
 
