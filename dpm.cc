@@ -61,7 +61,10 @@ int dpm::createCostRouteMap(const uint8_t* score_map, int height, int width,
     
     // 開始位置のindex
     const int start_index = /*h * width + */startX;
-    
+#ifdef DEBUG
+    memset(cost_map, 255, sizeof(cost_map[0]) * height * width);
+    memset(route_map, FROM_UNKNOWN, sizeof(Route) * height * width);
+#endif
     // 各マップの開始位置を初期化
     cost_map[start_index]  = 0;
     route_map[start_index] = FROM_UNKNOWN;
@@ -198,7 +201,7 @@ int dpm::match(const uint8_t* values1, int len1,
     
     // コストが最小になるルートを探す
     uint8_t  minCost = 0xFF;
-    for (int x = 0; x < len2 - len1; x++) {
+    for (int x = 0; x <= len2 - len1; x++) {
         // 開始点をX軸方向にずらしながらコストマップ、ルートマップを作成する
         createCostRouteMap(score_map, len1, len2, x, cost_map, route_map);
         
@@ -211,13 +214,16 @@ int dpm::match(const uint8_t* values1, int len1,
         // コストが最小になる開始点・終了点を保存する
         if (cost < minCost) {
             // 発見したデータ列長が実際の長さより短い場合は無視する
-            if (end.values2_i - start.values2_i >= len1) {
+            if ((end.values2_i - start.values2_i + 1)>= len1) {
                 // 発見したデータ列を保存する
                 minCost = cost;
                 result->start = start;
                 result->end = end;
                 result->score = cost;
             }
+
+            // 次回の開始位置更新
+            x = start.values2_i;
         }
     }
 
