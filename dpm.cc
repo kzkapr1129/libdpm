@@ -144,6 +144,7 @@ int dpm::getLowestCostPair(const uint8_t* cost_map, const Route* route_map,
                     start->values2_i = w-1;
                 }
                 h--;
+                break;
             case FROM_LEFT_UP:
                 if ((h-1) == 0 && (w-1) >= 0 && (w-1) < width) {
                     start->values2_i = w-1;
@@ -164,7 +165,7 @@ int dpm::getLowestCostPair(const uint8_t* cost_map, const Route* route_map,
 }
 
 int dpm::match(const uint8_t* values1, int len1,
-        const uint8_t* values2, int len2, CompareFunc compareFunc,
+        const uint8_t* values2, int len2, ScoreFunc scoreFunc,
         Result* result) {
     
     // スコアッマップ
@@ -187,7 +188,7 @@ int dpm::match(const uint8_t* values1, int len1,
         for (int j = 0; j < len2; j++) {
             uint8_t c1 = values1[i];
             uint8_t c2 = values2[j];
-            score_map[i * len2 + j] = compareFunc(c1, c2);
+            score_map[i * len2 + j] = scoreFunc(c1, c2);
         }
     }
     

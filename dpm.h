@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace dpm {
-    typedef uint8_t (*CompareFunc) (uint8_t a, uint8_t b);
+    typedef uint8_t (*ScoreFunc) (uint8_t a, uint8_t b);
     
     struct Pair {
         int values1_i;
@@ -31,7 +31,7 @@ namespace dpm {
 
     int match(const uint8_t* values1, int len1,
             const uint8_t* values2, int len2,
-            CompareFunc compare, Result* result);
+            ScoreFunc score, Result* result);
 }
 
 

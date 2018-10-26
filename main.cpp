@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 
-uint8_t Compare(uint8_t a, uint8_t b) {
+uint8_t Score(uint8_t a, uint8_t b) {
     if (a < b) {
         return b - a;
     } else {
@@ -27,7 +27,7 @@ int main(int argc, const char * argv[]) {
     const size_t len2 = sizeof(values2) / sizeof(unsigned char);
     
     dpm::Result result;
-    if (dpm::match(values1, len1, values2, len2, Compare, &result)) {
+    if (dpm::match(values1, len1, values2, len2, Score, &result)) {
         fprintf(stderr, "Failed dpm::match\n");
     }
     
