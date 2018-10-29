@@ -25,8 +25,9 @@ namespace dpm {
     struct Result {
         Pair start;
         Pair end;
-        std::vector<Pair> route;
         uint8_t score;
+
+        Result() : score(0) {}
     };
 
     int match(const uint8_t* values1, int len1,
